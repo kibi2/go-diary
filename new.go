@@ -78,6 +78,12 @@ func (c *Creator) NewDiary(tmplFile, dir, nameFormat string) (filePath string) {
 		return
 	}
 
+	err = file.Close()	// これを入れないとRenameでエラー　The process cannot access the file because it is being used by another process.
+	if err != nil {
+	//	c.Err = fmt.Errorf("move temp file to %s: %w", diaryFile, err)
+	//	return
+	}
+
 	err = os.Rename(tmpName, filepath.Join(dir, diaryFile))
 	if err != nil {
 		c.Err = fmt.Errorf("move temp file to %s: %w", diaryFile, err)
